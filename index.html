@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="keywords" content="">
+	<meta name="Description" content="">
+	<title>canvas星空</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		body{
+			overflow: hidden;
+		}
+		#canvas{
+			display: block;
+			background: black;
+		}
+
+	</style>
+</head>
+<body>
+	<canvas id="canvas"></canvas>
+	<script type="text/javascript">
+/*		var canvas =document.getElementById("canvas");
+		var cxt=canvas.getContext("2d");
+		
+		canvas.width =window.innerWidth;
+		canvas.height =window.innerHeight;
+	for(var i=0;i<200;i++){
+
+
+		cxt.save();
+		cxt.fillStyle= "pink";
+		cxt.beginPath();
+		cxt.arc(500,500,100,0,Math.PI*2,false);
+		cxt.closePath();
+		cxt.fill();
+		cxt.restore();
+		}
+*/			
+		var Canvas ={};
+
+
+		Canvas.animaate={
+
+			init:function(){
+				var canvas = document.getElementById("canvas");
+				this.cxt=canvas.getContext("2d");		
+				canvas.width =window.innerWidth;
+				canvas.height =window.innerHeight;
+				this.cw=canvas.width;
+				this.ch=canvas.height;
+				this.num =200;
+				this.data = [];
+				for (var i = 0; i <this.num; i++) {
+					this.data[i] = {
+						x: Math.random() * this.cw,
+						y: Math.random() * this.ch,
+						vx: Math.random() * 0.6-0.3,
+						vy: Math.random() * 0.6-0.3
+					}		
+					this.drawCircle(this.data[i].x,this.data[i].y);
+				}
+			},
+			//绘制点
+			drawCircle: function(x,y){
+		
+				var cxt =this.cxt;
+				cxt.save();
+				cxt.fillStyle= "pink";
+				cxt.beginPath();
+				cxt.arc(x,y,0.5,0,Math.PI*2,false);
+				cxt.closePath();
+				cxt.fill();
+				cxt.restore();
+			},
+			//点的运动及连线
+			moveCircle: function(){
+				this.cxt.clearRect(0,0,this.cw,this.ch)
+				for (var i = 0; i <this.num; i++){
+					this.data[i].x += this.data[i].vx;
+					this.data[i].y += this.data[i].vx;
+
+					if (this.data[i].x>this.cw||this.data[i].x<0) {
+						this.data[i].vx=-this.data[i].vx;
+					}
+					if (this.data[i].y>this.ch||this.data[i].y<0) {
+						this.data[i].vy=-this.data[i].vy;
+					}
+					this.drawCircle(this.data[i].x,this.data[i].y);
+					}
+			}
+		}
+
+		Canvas.animaate.init();
+		setInterval(function(){
+			Canvas.animaate.moveCircle();
+		},10);
+	</script>
+</body>
+</html>
